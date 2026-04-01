@@ -3,7 +3,7 @@ using UnityEngine;
 public class ClothTarget : MonoBehaviour
 {
     [SerializeField] private int _points = 10;
-    [SerializeField] private int _hitsToDisable = 3;
+    [SerializeField] private int _hitsToDisable = 2;
     [SerializeField] private Cloth _cloth;
     [SerializeField] private ClothMove _clothMove;
 
