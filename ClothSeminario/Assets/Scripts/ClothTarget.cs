@@ -3,11 +3,17 @@ using UnityEngine;
 public class ClothTarget : MonoBehaviour
 {
     [SerializeField] private int _points = 10;
-    [SerializeField] private int _hitsToDisable = 2;
+    [SerializeField] private int _hitsToDisable = 1;
     [SerializeField] private Cloth _cloth;
     [SerializeField] private ClothMove _clothMove;
 
+    [Header("Shot Launch")]
+    [SerializeField] private float _launchForwardForce = 8f;
+    [SerializeField] private float _launchUpForce = 2f;
+    [SerializeField] private float _launchSideForce = 1.5f;
+
     private int _currentHits;
+    private bool _wasLaunched;
 
     private void Awake()
     {
@@ -20,6 +26,9 @@ public class ClothTarget : MonoBehaviour
 
     public void Hit(Vector3 hitPoint, Vector3 shotDirection)
     {
+        if (_wasLaunched)
+            return;
+
         _currentHits++;
 
         ScoreManager.Instance?.AddScore(_points);
@@ -28,7 +37,7 @@ public class ClothTarget : MonoBehaviour
 
         if (_currentHits >= _hitsToDisable)
         {
-            PoolManager.Instance.ReturnObject(gameObject);
+            LaunchCloth(shotDirection);
         }
     }
 
@@ -37,13 +46,32 @@ public class ClothTarget : MonoBehaviour
         if (_cloth == null)
             return;
 
-        Vector3 impulse = shotDirection.normalized * 8f;
         _cloth.externalAcceleration = shotDirection.normalized * 6f;
+    }
+
+    private void LaunchCloth(Vector3 shotDirection)
+    {
+        _wasLaunched = true;
+
+        if (_clothMove == null)
+        {
+            PoolManager.Instance.ReturnObject(gameObject);
+            return;
+        }
+
+        Vector3 side = shotDirection.normalized * _launchSideForce;
+        Vector3 up = Vector3.up * _launchUpForce;
+        Vector3 forward = Vector3.forward * _launchForwardForce; // fundo = Z positivo
+
+        Vector3 finalVelocity = side + up + forward;
+
+        _clothMove.LaunchFromShot(finalVelocity);
     }
 
     public void ResetTarget()
     {
         _currentHits = 0;
+        _wasLaunched = false;
 
         if (_cloth != null)
         {

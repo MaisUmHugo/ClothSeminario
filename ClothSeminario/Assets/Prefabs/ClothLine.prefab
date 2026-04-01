@@ -84,6 +84,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 2
   _despawnX: 15
+  _shotFlyDuration: 2.5
 --- !u!114 &7690546129533377000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,9 +98,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _points: 10
-  _hitsToDisable: 3
+  _hitsToDisable: 1
   _cloth: {fileID: 5205671049079628244}
   _clothMove: {fileID: 5733746341742356775}
+  _launchForwardForce: 8
+  _launchUpForce: 2
+  _launchSideForce: 1.5
 --- !u!114 &4505811237175016212
 MonoBehaviour:
   m_ObjectHideFlags: 0

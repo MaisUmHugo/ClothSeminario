@@ -21,6 +21,7 @@ public class ClothItem : MonoBehaviour, IPoolable
             _cloth.enabled = true;
         }
 
+        _move?.ResetMoveState();
         _target?.ResetTarget();
     }
 
