@@ -1,12 +1,9 @@
 using UnityEngine;
 
-public class CrosshairFollow : MonoBehaviour{
-
-    private void Start() {
-        Cursor.visible = false;
-    }
-
-    void Update(){
+public class CrosshairFollow : MonoBehaviour
+{
+    void Update()
+    {
         transform.position = Input.mousePosition;
     }
 }
