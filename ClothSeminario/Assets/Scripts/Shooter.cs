@@ -5,6 +5,7 @@ public class Shooter : MonoBehaviour
     [SerializeField] private Camera _camera;
     [SerializeField] private float _maxDistance = 100f;
     [SerializeField] private LayerMask _hitMask;
+    [SerializeField] private AudioClip _damageSoundClip;
 
     private void Update()
     {
@@ -27,7 +28,9 @@ public class Shooter : MonoBehaviour
 
             if (target != null)
             {
+                SOundEffectsManager.instance.PlaySoundEffect(_damageSoundClip, transform, 1f);
                 target.Hit(hit.point, ray.direction);
+
             }
         }
     }
